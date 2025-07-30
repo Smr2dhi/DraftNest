@@ -1,1 +1,1 @@
-"# DraftNest - MERN Blog" 
+"# DraftNest - " 
