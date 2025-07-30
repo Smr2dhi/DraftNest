@@ -12,6 +12,7 @@ export default function App() {
     <BrowserRouter>
       <Navbar />
       <div className="container mt-4">
+       
         <Routes>
           <Route path="/"         element={<Home />} />
           <Route path="/signup"   element={<Signup />} />
@@ -21,6 +22,17 @@ export default function App() {
           <Route path="/post/:id" element={<PostDetail />} />  {/* new */}
         </Routes>
       </div>
+
+     <footer className="footer bg-dark text-white text-center py-4 mt-5">
+  <p className="mb-1">Typed in silence. Echoed on the web.</p>
+  <small>&copy; {new Date().getFullYear()}DraftNest . All rights reserved.</small>
+</footer>
+
     </BrowserRouter>
   );
 }
+
+
+
+
+

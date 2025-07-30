@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
     .populate('author', 'name email');
   res.json(posts);
 });
-
+  
 // Auth middleware
 const requireAuth = (req, res, next) => {
   const userId = getUserId(req.headers.authorization);
@@ -51,9 +51,9 @@ router.post('/', requireAuth, async (req, res) => {
 // UPDATE
 router.put('/:id', requireAuth, async (req, res) => {
   const post = await Post.findById(req.params.id);
-  if (!post) return res.status(404).json({ error: 'Not found' });
+  if (!post) return res.status(404).json({ error: 'Post Not found' });
   if (post.author.toString() !== req.userId)
-    return res.status(403).json({ error: 'Forbidden' });
+    return res.status(403).json({ error: 'Forbidden User' });
 
   const { title, content, category, status } = req.body;
   post.title    = title;
@@ -68,12 +68,12 @@ router.put('/:id', requireAuth, async (req, res) => {
 // DELETE
 router.delete('/:id', requireAuth, async (req, res) => {
   const post = await Post.findById(req.params.id);
-  if (!post) return res.status(404).json({ error: 'Not found' });
+  if (!post) return res.status(404).json({ error: 'Post Not found' });
   if (post.author.toString() !== req.userId)
-    return res.status(403).json({ error: 'Forbidden' });
+    return res.status(403).json({ error: 'Forbidden,Get out !! your not saved user' });
 
   await post.deleteOne();
-  res.json({ message: 'Deleted' });
+  res.json({ message: 'Deleted This User!!' });
 });
 
 module.exports = router;

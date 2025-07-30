@@ -24,7 +24,7 @@ export default function CreatePost() {
   useEffect(() => {
     if (isEdit) {
       const token = localStorage.getItem('token');
-      axios.get(`http://localhost:5001/api/____fill in___`, {
+      axios.get(`http://localhost:5001/api/posts`, {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(res => {
@@ -43,7 +43,7 @@ export default function CreatePost() {
   const handleSubmit = async e => {
     e.preventDefault();
     const token = localStorage.getItem('token');
-    //const formData = new FormData();
+    const formData = new FormData();
     formData.append('title', title);
     formData.append('content', content);
     formData.append('category', category);

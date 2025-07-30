@@ -9,7 +9,7 @@ export default function Home() {
 
   useEffect(() => {
     axios
-      .get('', {
+      .get('http://localhost:5001/api/posts', {
         headers: token ? { Authorization: `Bearer ${token}` } : {}
       })
       .then(res => setPosts(res.data))
@@ -21,7 +21,7 @@ export default function Home() {
     await axios.delete(`http://localhost:5001/api/posts/${id}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
-    setPosts(p => p.filter())
+    setPosts(p => p.filter(post => post._id !== id));
   }
 
   return (
@@ -31,14 +31,14 @@ export default function Home() {
         margin: '0 auto',
         padding: '2rem',
         fontFamily: 'sans-serif',
-        background: '#f0f2f5'
+        background: '#f8f9fa',
+        minHeight: '100vh'
       }}
     >
       <h1 style={{ textAlign: 'center', marginBottom: '2rem' }}>
         {token ? 'My Posts' : 'All Posts'}
       </h1>
 
-      {/* Grid Container */}
       <div
         style={{
           display: 'grid',
@@ -51,34 +51,38 @@ export default function Home() {
             key={p._id}
             style={{
               background: '#fff',
-              borderRadius: '8px',
+              borderRadius: '10px',
               overflow: 'hidden',
               boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
               display: 'flex',
-              flexDirection: 'column'
+              flexDirection: 'column',
+              transition: 'transform 0.2s ease-in-out'
             }}
+            onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.02)'}
+            onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
           >
             {p.imagePath && (
               <img
-                src={`http://______fill in the blank______/uploads/${p.imagePath}`}
+                src={`http://localhost:5001/uploads/${p.imagePath}`}
                 alt={p.title}
                 style={{ width: '100%', height: 180, objectFit: 'cover' }}
               />
             )}
             <div style={{ padding: '1rem', flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-              <h3 style={{ margin: '0 0 0.5rem', fontSize: '1.25rem' }}>{p.title}</h3>
+              <h3 style={{ margin: '0 0 0.5rem', fontSize: '1.3rem', color: '#343a40' }}>{p.title}</h3>
               <p style={{ color: '#555', flexGrow: 1 }}>
-                {p.content.length > 100 ? p.content.slice(0,100) + '…' : p.content}
+                {p.content.length > 100 ? p.content.slice(0, 100) + '…' : p.content}
               </p>
-              <div style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem' }}>
+              <div style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                 <Link
                   to={`/post/${p._id}`}
                   style={{
                     padding: '0.5rem 1rem',
-                    borderRadius: '4px',
+                    borderRadius: '5px',
                     textDecoration: 'none',
-                    border: '1px solid #007bff',
-                    color: '#007bff'
+                    backgroundColor: '#0d6efd',
+                    color: '#fff',
+                    fontWeight: 500
                   }}
                 >
                   Read More
@@ -89,10 +93,11 @@ export default function Home() {
                       to={`/edit/${p._id}`}
                       style={{
                         padding: '0.5rem 1rem',
-                        borderRadius: '4px',
+                        borderRadius: '5px',
                         textDecoration: 'none',
-                        border: '1px solid #6c757d',
-                        color: '#6c757d'
+                        backgroundColor: '#6c757d',
+                        color: '#fff',
+                        fontWeight: 500
                       }}
                     >
                       Edit
@@ -101,11 +106,12 @@ export default function Home() {
                       onClick={() => handleDelete(p._id)}
                       style={{
                         padding: '0.5rem 1rem',
-                        borderRadius: '4px',
-                        border: '1px solid #dc3545',
-                        background: 'transparent',
-                        color: '#dc3545',
-                        cursor: 'pointer'
+                        borderRadius: '5px',
+                        backgroundColor: '#dc3545',
+                        color: '#fff',
+                        border: 'none',
+                        cursor: 'pointer',
+                        fontWeight: 500
                       }}
                     >
                       Delete
